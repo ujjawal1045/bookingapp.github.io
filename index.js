@@ -25,6 +25,13 @@ app.use("/api/users",usersRoute);
 app.use("/api/rooms",roomRoute);
 app.use("/api/hotels",hotelRoute);
 
+app.use((err, req, res, next) => {
+    const errorStatus = err.status || 500
+    const errorMessage = err.message || "something went wrong"
+    return res.status(errorStatus).json( errorMessage );
+    // next();
+})
+
 
 app.listen(port, function(err) {
     if(err){
