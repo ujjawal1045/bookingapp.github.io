@@ -1,5 +1,6 @@
 const User = require('../models/User.js');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 module.exports.register = async (req, res, next) => {
     try {
         const salt = bcrypt.genSaltSync(10);
@@ -29,9 +30,16 @@ module.exports.login = async (req, res, next) => {
        if(!isPasswordCorrect)
        return res.status(400).send("username or password incorrect");
 
+       const token = jwt.sign({id: user._id,isAdmin: user.isAdmin},
+        "cdc926b8e0957aed10c44ed016a09c74cf5441e94c18fcfec36c542028b5b8d1");
+
        //hiding password from displaying
-       const{password, ...otherDetails} = user._doc;
-        res.status(200).json({...otherDetails});
+       const{password,isAdmin, ...otherDetails} = user._doc;
+        res.cookie("access_token",token, {
+            httpOnly: true,
+        })
+        .status(200)
+        .json({...otherDetails});
     } catch (err) {
         next(err);
     }

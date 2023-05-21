@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: false
+    },
+    isAdmin :{
+        type: String,
+        required: false
     }
 },{
     //storing data of user crestion snd updation

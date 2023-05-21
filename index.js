@@ -4,6 +4,7 @@ const authRoute = require('./api/routes/auth.js');
 const usersRoute = require('./api/routes/users.js');
 const hotelRoute = require('./api/routes/hotels.js');
 const roomRoute = require('./api/routes/rooms.js');
+const cookieParser = require('cookie-parser');
 const app = express();
 
 const port = 8000;
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 })
 
 //middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users",usersRoute);
