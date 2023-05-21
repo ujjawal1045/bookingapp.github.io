@@ -6,13 +6,16 @@ const hotelRoute = require('./api/routes/hotels.js');
 const roomRoute = require('./api/routes/rooms.js');
 const cookieParser = require('cookie-parser');
 const app = express();
+//adding cors to access server from localhost:3000
+var cors = require('cors');
+app.use(cors());
 
 const port = 8000;
 
 
 //adding mongoose databse
 
-const db = require('./config/mongoose');
+const db = require('./api/config/mongoose.js');
 
 //api request
 app.get("/", (req, res) => {
