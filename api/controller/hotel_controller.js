@@ -56,15 +56,19 @@ module.exports.getHotel = async (req, res, next) => {
 
 module.exports.getAllHotel = async (req, res, next) => {
     const query = qs.parse(req.url.split('?')[1]);
-    const { featured, min, max } = query;
+    const { featured, min, max, city } = query;
     try {
-        let limit = parseInt(query.limit) || 4;
+        let limit = parseInt(query.limit) ;
         const queryObject = {};
         if (featured) {
             queryObject.featured = featured === 'true';
         }
         if (min && max) {
             queryObject.cheapestPrice = { $gt: parseInt(min), $lt: parseInt(max) };
+        }
+
+        if (city) {
+            queryObject.city = city;
         }
         const hotels = await Hotel.find(queryObject).limit(limit);
         res.status(200).json(hotels);
