@@ -1,63 +1,37 @@
+import useFetch from "../../hooks/useFetch";
 import "./propertyList.css";
 
 const PropertyList = () => {
+  const {data, loading, error} = useFetch("http://localhost:8000/api/hotels/countByType");
+  console.log(data);
+  const images = ["https://cdn.britannica.com/96/115096-050-5AFDAF5D/Bellagio-Hotel-Casino-Las-Vegas.jpg",
+                  "https://www.pandotrip.com/wp-content/uploads/2013/08/philippines-jes-aznar.jpg",
+                  "https://media.istockphoto.com/id/1140199948/photo/contemporary-modern-luxury-flats-in-knightsbridge-london.jpg?s=612x612&w=0&k=20&c=RKa8ADtlwyoWJJeGkqdEOQ-IGF1iRgEi9aBg0sEKoc4=",
+                  "https://static.businessworld.in/article/article_extra_large_image/1539605458_CvZVT4_oyo.jpg",
+                  "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/b1/8c/fc/front-of-the-craigdarroch.jpg?w=1200&h=-1&s=1"
+]
   return (
     <div className="pList">
-      <div className="pListItem">
-        <img
-          src="https://cf.bstatic.com/xdata/images/xphoto/square300/57584488.webp?k=bf724e4e9b9b75480bbe7fc675460a089ba6414fe4693b83ea3fdd8e938832a6&o="
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Hotels</h1>
-          <h2>233 hotels</h2>
+      {loading ? (
+        "Loading please wait"
+      ) : (
+      <>
+        {data && images.map((img,i) => (
+        
+        <div className="pListItem" key={i}>
+          <img
+            src={img}
+            alt="" 
+            className="pListImg"
+          />
+          <div className="pListTitles">
+            <h1>{data[i]?.typee}</h1>
+            <h2>{data[i]?.count} {data[i]?.typee}</h2>
+          </div>
         </div>
-      </div>
-      <div className="pListItem">
-        <img
-          src="https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-apartments_300/9f60235dc09a3ac3f0a93adbc901c61ecd1ce72e.jpg"
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Apartments</h1>
-          <h2>2331 hotels</h2>
-        </div>
-      </div>
-      <div className="pListItem">
-        <img
-          src="https://cf.bstatic.com/static/img/theme-index/carousel_320x240/bg_resorts/6f87c6143fbd51a0bb5d15ca3b9cf84211ab0884.jpg"
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Resorts</h1>
-          <h2>2331 hotels</h2>
-        </div>
-      </div>
-      <div className="pListItem">
-        <img
-          src="https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-villas_300/dd0d7f8202676306a661aa4f0cf1ffab31286211.jpg"
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Villas</h1>
-          <h2>2331 hotels</h2>
-        </div>
-      </div>
-      <div className="pListItem">
-        <img
-          src="https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-chalet_300/8ee014fcc493cb3334e25893a1dee8c6d36ed0ba.jpg"
-          alt=""
-          className="pListImg"
-        />
-        <div className="pListTitles">
-          <h1>Cabins</h1>
-          <h2>2331 hotels</h2>
-        </div>
-      </div>
+        ))}
+      </>
+      )}
     </div>
   );
 };
